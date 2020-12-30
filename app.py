@@ -1,10 +1,14 @@
 from flask import Flask
 from flask import request
 import json
+from flask_cors import CORS, cross_origin
+
 
 import modules.website_analysis as wa
 
 app = Flask(__name__)
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 
 def calc_score(data):
@@ -30,6 +34,7 @@ def calc_score(data):
 
 
 @app.route('/')
+@cross_origin()
 def home():
     try:
         # print("initiating scan")
@@ -55,6 +60,7 @@ def home():
 
 
 @app.route('/scan', methods=["GET", "POST"])
+@cross_origin()
 def scan():
     if request.method == "POST":
         try:
