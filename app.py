@@ -1,6 +1,6 @@
 from flask import Flask
 from flask import request
-from flask import session
+# from flask import session
 import random
 import json
 from flask_cors import CORS, cross_origin
@@ -10,7 +10,7 @@ import modules.website_analysis as wa
 app = Flask(__name__)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
-app.secret_key = "".join(random.sample("a b c d e f  g h i j k l m n o p q r s t u v w x y z".split(), 20))
+# app.secret_key = "".join(random.sample("a b c d e f  g h i j k l m n o p q r s t u v w x y z".split(), 20))
 
 
 # print(app.secret_key)
@@ -39,7 +39,7 @@ def calc_score(data):
 @app.route('/')
 @cross_origin()
 def home():
-    session.clear()
+    # session.clear()
     try:
         # print("initiating scan")
         # st = "https://saket-upadhyay.github.io/"
@@ -70,7 +70,7 @@ def home():
 def scan():
     if request.method == "POST":
         try:
-            session.clear()
+            # session.clear()
             site = request.form.get('site')
 
             while site[-1] == ' ':
@@ -102,7 +102,7 @@ def scan():
             return "Internal Error in processing"
     elif request.method == "GET":
 
-        session.clear()
+        # session.clear()
         site = request.args.get('site')
 
         while site[-1] == ' ':
@@ -138,4 +138,5 @@ def scan():
 
 
 if __name__ == '__main__':
-    app.run(threaded=True)
+    # app.run(threaded=True)
+    app.run()
