@@ -52,7 +52,9 @@ def home():
         #
         # report.update(result)
 
-        report= "Chintu SEO Services. Home Page. send a POST/GET request to chintu on | /scan?site=[http(s)://yousitename.domain/]"
+        report= "Chintu SEO Services. Home Page. send a POST/GET request to chintu on | /scan?site=[http(s)://yousitename.domain/]" \
+                "<br><br><br><br><br><br> (This name is result of internal joke [because our team name is WhiteHatJuniors, fun spinoff of recent events in India :) ], we have nothing to do with Chintu, we don't even know any.)" \
+                "<br><br><br><br><br><br> The actual project name is <strong>WebFlux</strong>"
 
         return report
     except:
@@ -65,6 +67,8 @@ def scan():
     if request.method == "POST":
         try:
             site = request.form.get('site')
+            if site[-1] != '/':
+                site=site+"/"
             print("Scanning " + str(site))
             Spider_Object = wa.Spider(site)
             print("Initiating Crawl")
@@ -86,6 +90,8 @@ def scan():
     elif request.method == "GET":
         try:
             site = request.args.get('site')
+            if site[-1] != '/':
+                site=site+"/"
             print("Scanning " + str(site))
             Spider_Object = wa.Spider(site)
             print("Initiating Crawl")
