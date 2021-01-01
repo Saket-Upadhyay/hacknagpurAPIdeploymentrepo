@@ -103,13 +103,15 @@ class Spider:
         """
         self._analyze_crawlers()
         self._analyze_blog()
+        self.report['pages']=[]
         for page_url in self.pages_to_crawl:
             resp = requests.get(page_url)
             if resp.status_code == requests.codes.ok:
                 html = webpage_analysis.Webpage(
                     page_url, resp.content, self.titles, self.descriptions)
                 page_report = html.report()
-                self.report['pages']=[]
+
+
                 self.report['pages'].append(page_report)
                 self.pages_crawled.append(page_url.strip().lower())
                 # print("Crawled {0} Pages of {1}: {2}".format(
