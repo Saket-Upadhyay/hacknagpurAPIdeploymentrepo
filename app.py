@@ -59,7 +59,7 @@ def home():
 
         report = "<center>Chintu SEO Services. Home Page. send a POST/GET request to chintu on | /scan?site=[http(s)://yousitename.domain/]" \
                  "<br><br><br><br><br><br> (This name is result of internal joke [because our team name is WhiteHatJuniors, fun spinoff of recent events in India :) ], we have nothing to do with Chintu, we don't even know any.)" \
-                 "<br><br><br><br><br><br> The actual project name is <strong>WebFlux</strong><br><br><br>DPv-5.0</center>"
+                 "<br><br><br><br><br><br> The actual project name is <strong>WebFlux</strong><br><br><br>DPv-5.2</center>"
 
         return report
     except:
