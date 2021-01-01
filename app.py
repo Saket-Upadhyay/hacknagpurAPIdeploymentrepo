@@ -15,6 +15,7 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 
 # print(app.secret_key)
 def calc_score(data):
+
     page_achievement = data['pages']
     page_achievement = page_achievement[0]
     page_achievement = page_achievement['achieved']
@@ -56,9 +57,9 @@ def home():
         #
         # report.update(result)
 
-        report = "Chintu SEO Services. Home Page. send a POST/GET request to chintu on | /scan?site=[http(s)://yousitename.domain/]" \
+        report = "<center>Chintu SEO Services. Home Page. send a POST/GET request to chintu on | /scan?site=[http(s)://yousitename.domain/]" \
                  "<br><br><br><br><br><br> (This name is result of internal joke [because our team name is WhiteHatJuniors, fun spinoff of recent events in India :) ], we have nothing to do with Chintu, we don't even know any.)" \
-                 "<br><br><br><br><br><br> The actual project name is <strong>WebFlux</strong>"
+                 "<br><br><br><br><br><br> The actual project name is <strong>WebFlux</strong><br><br><br>DPv-5.0</center>"
 
         return report
     except:
@@ -96,43 +97,55 @@ def scan():
 
             report.update(result)
 
+            del Spider_Object
+            del raw_report
+            del data
+            del site
+
             return report
 
         except:
             return "Internal Error in processing"
     elif request.method == "GET":
+        try:
+            # session.clear()
+            site = request.args.get('site')
 
-        # session.clear()
-        site = request.args.get('site')
+            while site[-1] == ' ':
+                temp = ""
+                for i in range(0, len(site) - 1):
+                    temp = temp + site[i]
 
-        while site[-1] == ' ':
-            temp = ""
-            for i in range(0, len(site) - 1):
-                temp = temp + site[i]
+                site = temp
 
-            site = temp
+            if site[-1] != '/':
+                site = site + "/"
 
-        if site[-1] != '/':
-            site = site + "/"
+            print("Scanning " + str(site))
+            Spider_Object = wa.Spider(site)
+            print("Initiating Crawl")
+            raw_report = Spider_Object.crawl()
+            print("Crawl Over")
+            print("Sending response")
+            report = json.loads(json.dumps(raw_report, indent=4, separators=(',', ': ')))
+            data = report
 
-        print("Scanning " + str(site))
-        Spider_Object = wa.Spider(site)
-        print("Initiating Crawl")
-        raw_report = Spider_Object.crawl()
-        print("Crawl Over")
-        print("Sending response")
-        report = json.loads(json.dumps(raw_report, indent=4, separators=(',', ': ')))
-        data = report
+            site_achievement, page_achievement, site_issues, page_issues, total_achievement, total_issues, max_score = calc_score(
+                data)
+            result = {'scored': total_achievement, 'max_score': max_score}
 
-        site_achievement, page_achievement, site_issues, page_issues, total_achievement, total_issues, max_score = calc_score(
-            data)
-        result = {'scored': total_achievement, 'max_score': max_score}
-
-        report.update(result)
-
-        return report
-
-        return "Internal Error in processing"
+            report.update(result)
+            del Spider_Object
+            return report
+        except:
+            try:
+                del Spider_Object
+                del raw_report
+                del data
+                del site
+            except Exception:
+                pass
+            return "Internal Error in processing"
     else:
         return "ERROR: API accepts POST or GET requests only."
 

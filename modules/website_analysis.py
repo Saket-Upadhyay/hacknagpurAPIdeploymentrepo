@@ -109,6 +109,7 @@ class Spider:
                 html = webpage_analysis.Webpage(
                     page_url, resp.content, self.titles, self.descriptions)
                 page_report = html.report()
+                self.report['pages']=[]
                 self.report['pages'].append(page_report)
                 self.pages_crawled.append(page_url.strip().lower())
                 # print("Crawled {0} Pages of {1}: {2}".format(
